@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FixBudget — რემონტის ბიუჯეტი</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:#111827;color:white;padding:22px 18px}
+nav{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:800}.logo span{color:#60a5fa}
+.hero{max-width:1050px;margin:0 auto;padding:55px 18px 30px}.hero h1{font-size:42px;margin:0 0 12px}.hero p{font-size:18px;color:#64748b;max-width:680px}
+.grid{max-width:1050px;margin:auto;padding:15px 18px 60px;display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
+.card{background:white;border-radius:18px;padding:24px;box-shadow:0 8px 30px #17203312}
+h2{margin-top:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:14px;font-weight:700;margin:13px 0 6px}
+input,select{width:100%;padding:13px;border:1px solid #d7dce5;border-radius:10px;font-size:16px}
+button{width:100%;padding:14px;border:0;border-radius:11px;background:#2563eb;color:white;font-size:17px;font-weight:700;cursor:pointer;margin-top:18px}
+button:hover{background:#1d4ed8}
+.result{position:sticky;top:15px}.total{font-size:40px;font-weight:800;margin:8px 0 18px}.line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #edf0f5}.muted{color:#64748b}.note{margin-top:15px;padding:12px;background:#eff6ff;border-radius:10px;color:#1e40af;font-size:14px}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}.result{position:static}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><nav><div class="logo">Fix<span>Budget</span></div><div>რემონტის ბიუჯეტის კალკულატორი</div></nav></header>
+<section class="hero">
+<h1>გაიგე რემონტის სავარაუდო ფასი</h1>
+<p>შეიყვანე ფართობი, სამუშაოების ფასები და დამატებითი ხარჯები — კალკულატორი ავტომატურად დაგითვლის სავარაუდო ბიუჯეტს.</p>
+</section>
+
+<main class="grid">
+<section class="card">
+<h2>პროექტის მონაცემები</h2>
+<div class="row">
+<div><label>ფართობი (მ²)</label><input id="area" type="number" min="0" value="50"></div>
+<div><label>რეზერვი (%)</label><input id="reserve" type="number" min="0" value="10"></div>
+</div>
+<h3>სამუშაოები — ფასი მ²-ზე</h3>
+<div class="row">
+<div><label>შეღებვა</label><input id="paint" type="number" min="0" value="25"></div>
+<div><label>იატაკი</label><input id="floor" type="number" min="0" value="35"></div>
+<div><label>კედლები</label><input id="walls" type="number" min="0" value="30"></div>
+<div><label>ჭერი</label><input id="ceiling" type="number" min="0" value="30"></div>
+</div>
+<h3>დამატებითი ხარჯები</h3>
+<div class="row">
+<div><label>ელექტროობა (₾)</label><input id="electric" type="number" min="0" value="800"></div>
+<div><label>სანტექნიკა (₾)</label><input id="plumbing" type="number" min="0" value="600"></div>
+<div><label>ტრანსპორტი (₾)</label><input id="transport" type="number" min="0" value="300"></div>
+<div><label>სხვა (₾)</label><input id="other" type="number" min="0" value="0"></div>
+</div>
+<button onclick="calculate()">ბიუჯეტის დათვლა</button>
+</section>
+
+<section class="card result">
+<h2>შედეგი</h2>
+<div class="muted">სავარაუდო სრული ბიუჯეტი</div>
+<div class="total" id="total">₾0</div>
+<div class="line"><span>სამუშაოები</span><b id="works">₾0</b></div>
+<div class="line"><span>დამატებითი ხარჯები</span><b id="extras">₾0</b></div>
+<div class="line"><span>რეზერვი</span><b id="reserveOut">₾0</b></div>
+<div class="note">ეს არის საორიენტაციო გამოთვლა. საბოლოო ფასი დამოკიდებულია მასალებზე, სამუშაოს სირთულესა და ობიექტის მდგომარეობაზე.</div>
+</section>
+</main>
+<footer>© 2026 FixBudget — მარტივი დაგეგმვა, უკეთესი რემონტი.</footer>
+
+<script>
+function n(id){return Math.max(0,Number(document.getElementById(id).value)||0)}
+function money(x){return "₾"+Math.round(x).toLocaleString("ka-GE")}
+function calculate(){
+ const area=n("area");
+ const works=area*(n("paint")+n("floor")+n("walls")+n("ceiling"));
+ const extras=n("electric")+n("plumbing")+n("transport")+n("other");
+ const reserve=(works+extras)*n("reserve")/100;
+ const total=works+extras+reserve;
+ document.getElementById("works").textContent=money(works);
+ document.getElementById("extras").textContent=money(extras);
+ document.getElementById("reserveOut").textContent=money(reserve);
+ document.getElementById("total").textContent=money(total);
+}
+document.querySelectorAll("input").forEach(x=>x.addEventListener("input",calculate));
+calculate();
+</script>
+</body>
+</html>
