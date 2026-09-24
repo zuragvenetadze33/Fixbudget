@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FixBudget — ხელოსნების ბაზა</title>
+<link rel="stylesheet" href="handymen.css">
+</head>
+<body>
+<header>
+<nav>
+<a class="logo" href="index.html">Fix<span>Budget</span></a>
+<a class="back" href="index.html">← კალკულატორი</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>🔨 ხელოსნების ბაზა</h1>
+<p>იპოვე საჭირო ხელოსანი საქმიანობისა და ქალაქის მიხედვით.</p>
+</section>
+
+<main class="wrap">
+<section class="search-card">
+<input id="search" placeholder="🔎 მოძებნე სახელი, ქალაქი ან საქმიანობა">
+<select id="category">
+<option value="">ყველა საქმიანობა</option>
+<option>ელექტრიკი</option>
+<option>სანტექნიკი</option>
+<option>მღებავი</option>
+<option>გიფსოკარდონი</option>
+<option>კაფელ-მეტლახი</option>
+<option>გაჭიმული ჭერი</option>
+<option>დურგალი</option>
+<option>შემდუღებელი</option>
+<option>სხვა</option>
+</select>
+</section>
+
+<div id="cards" class="cards"></div>
+
+<section class="card add">
+<h2>➕ დაამატე ხელოსანი</h2>
+<div class="form">
+<input id="name" placeholder="სახელი / ხელოსნის სახელი">
+<input id="phone" placeholder="ტელეფონის ნომერი">
+<input id="city" placeholder="ქალაქი">
+<select id="work">
+<option value="">საქმიანობა</option>
+<option>ელექტრიკი</option><option>სანტექნიკი</option>
+<option>მღებავი</option><option>გიფსოკარდონი</option>
+<option>კაფელ-მეტლახი</option><option>გაჭიმული ჭერი</option>
+<option>დურგალი</option><option>შემდუღებელი</option><option>სხვა</option>
+</select>
+<textarea id="desc" placeholder="მოკლე აღწერა / გამოცდილება"></textarea>
+<button onclick="addWorker()">ხელოსნის დამატება</button>
+</div>
+</section>
+</main>
+<footer>© 2026 FixBudget — მარტივი დაგეგმვა, უკეთესი რემონტი.</footer>
+<script src="handymen.js"></script>
+</body>
+</html>
