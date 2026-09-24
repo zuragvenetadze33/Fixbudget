@@ -1,86 +1,747 @@
 <!doctype html>
+
 <html lang="ka">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FixBudget — რემონტის ბიუჯეტი</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
-header{background:#111827;color:white;padding:22px 18px}
-nav{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:24px;font-weight:800}.logo span{color:#60a5fa}
-.hero{max-width:1050px;margin:0 auto;padding:55px 18px 30px}.hero h1{font-size:42px;margin:0 0 12px}.hero p{font-size:18px;color:#64748b;max-width:680px}
-.grid{max-width:1050px;margin:auto;padding:15px 18px 60px;display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
-.card{background:white;border-radius:18px;padding:24px;box-shadow:0 8px 30px #17203312}
-h2{margin-top:0}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;font-size:14px;font-weight:700;margin:13px 0 6px}
-input,select{width:100%;padding:13px;border:1px solid #d7dce5;border-radius:10px;font-size:16px}
-button{width:100%;padding:14px;border:0;border-radius:11px;background:#2563eb;color:white;font-size:17px;font-weight:700;cursor:pointer;margin-top:18px}
-button:hover{background:#1d4ed8}
-.result{position:sticky;top:15px}.total{font-size:40px;font-weight:800;margin:8px 0 18px}.line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #edf0f5}.muted{color:#64748b}.note{margin-top:15px;padding:12px;background:#eff6ff;border-radius:10px;color:#1e40af;font-size:14px}
-footer{text-align:center;padding:25px;color:#64748b}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}.result{position:static}.row{grid-template-columns:1fr}}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033
+}
+
+header{
+  background:#111827;
+  color:white;
+  padding:22px 18px
+}
+
+nav{
+  max-width:1050px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800
+}
+
+.logo span{
+  color:#60a5fa
+}
+
+.hero{
+  max-width:1050px;
+  margin:0 auto;
+  padding:55px 18px 30px
+}
+
+.hero h1{
+  font-size:42px;
+  margin:0 0 12px
+}
+
+.hero p{
+  font-size:18px;
+  color:#64748b;
+  max-width:680px
+}
+
+.grid{
+  max-width:1050px;
+  margin:auto;
+  padding:15px 18px 40px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:22px
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 8px 30px #17203312
+}
+
+h2{
+  margin-top:0
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+
+label{
+  display:block;
+  font-size:14px;
+  font-weight:700;
+  margin:13px 0 6px
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #d7dce5;
+  border-radius:10px;
+  font-size:16px
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:11px;
+  background:#2563eb;
+  color:white;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:18px
+}
+
+button:hover{
+  background:#1d4ed8
+}
+
+.result{
+  position:sticky;
+  top:15px
+}
+
+.total{
+  font-size:40px;
+  font-weight:800;
+  margin:8px 0 18px
+}
+
+.line{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #edf0f5
+}
+
+.muted{
+  color:#64748b
+}
+
+.note{
+  margin-top:15px;
+  padding:12px;
+  background:#eff6ff;
+  border-radius:10px;
+  color:#1e40af;
+  font-size:14px
+}
+
+/* ხელოსნების სექცია */
+
+.contractors{
+  max-width:1050px;
+  margin:0 auto;
+  padding:0 18px 60px
+}
+
+.contractor-card{
+  background:white;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 8px 30px #17203312
+}
+
+.add-button{
+  background:#16a34a;
+  margin-top:10px
+}
+
+.add-button:hover{
+  background:#15803d
+}
+
+.form-box{
+  display:none;
+  margin-top:20px;
+  padding:20px;
+  background:#f8fafc;
+  border-radius:14px;
+  border:1px solid #e2e8f0
+}
+
+.form-box.active{
+  display:block
+}
+
+.contractor-list{
+  margin-top:20px;
+  display:grid;
+  gap:12px
+}
+
+.contractor{
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  padding:16px;
+  background:#fff
+}
+
+.contractor h3{
+  margin:0 0 7px
+}
+
+.contractor p{
+  margin:5px 0;
+  color:#64748b
+}
+
+.delete-btn{
+  background:#dc2626;
+  margin-top:10px;
+  padding:9px 12px;
+  font-size:14px
+}
+
+.delete-btn:hover{
+  background:#b91c1c
+}
+
+.empty{
+  color:#64748b;
+  text-align:center;
+  padding:20px
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#64748b
+}
+
+@media(max-width:760px){
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .hero h1{
+    font-size:32px
+  }
+
+  .result{
+    position:static
+  }
+
+  .row{
+    grid-template-columns:1fr
+  }
+
+  nav{
+    flex-direction:column;
+    align-items:flex-start
+  }
+}
 </style>
+
 </head>
+
 <body>
-<header><nav><div class="logo">Fix<span>Budget</span></div><div>რემონტის ბიუჯეტის კალკულატორი</div></nav></header>
+
+<header>
+<nav>
+<div class="logo">Fix<span>Budget</span></div>
+<div>რემონტის ბიუჯეტის კალკულატორი</div>
+</nav>
+</header>
+
 <section class="hero">
+
 <h1>გაიგე რემონტის სავარაუდო ფასი</h1>
-<p>შეიყვანე ფართობი, სამუშაოების ფასები და დამატებითი ხარჯები — კალკულატორი ავტომატურად დაგითვლის სავარაუდო ბიუჯეტს.</p>
+
+<p>
+შეიყვანე ფართობი, სამუშაოების ფასები და დამატებითი ხარჯები —
+კალკულატორი ავტომატურად დაგითვლის სავარაუდო ბიუჯეტს.
+</p>
+
 </section>
 
 <main class="grid">
+
 <section class="card">
+
 <h2>პროექტის მონაცემები</h2>
+
 <div class="row">
-<div><label>ფართობი (მ²)</label><input id="area" type="number" min="0" value="50"></div>
-<div><label>რეზერვი (%)</label><input id="reserve" type="number" min="0" value="10"></div>
+
+<div>
+<label>ფართობი (მ²)</label>
+<input id="area" type="number" min="0" value="50">
 </div>
+
+<div>
+<label>რეზერვი (%)</label>
+<input id="reserve" type="number" min="0" value="10">
+</div>
+
+</div>
+
 <h3>სამუშაოები — ფასი მ²-ზე</h3>
+
 <div class="row">
-<div><label>შეღებვა</label><input id="paint" type="number" min="0" value="25"></div>
-<div><label>იატაკი</label><input id="floor" type="number" min="0" value="35"></div>
-<div><label>კედლები</label><input id="walls" type="number" min="0" value="30"></div>
-<div><label>ჭერი</label><input id="ceiling" type="number" min="0" value="30"></div>
+
+<div>
+<label>შეღებვა</label>
+<input id="paint" type="number" min="0" value="25">
 </div>
+
+<div>
+<label>იატაკი</label>
+<input id="floor" type="number" min="0" value="35">
+</div>
+
+<div>
+<label>კედლები</label>
+<input id="walls" type="number" min="0" value="30">
+</div>
+
+<div>
+<label>ჭერი</label>
+<input id="ceiling" type="number" min="0" value="30">
+</div>
+
+</div>
+
 <h3>დამატებითი ხარჯები</h3>
+
 <div class="row">
-<div><label>ელექტროობა (₾)</label><input id="electric" type="number" min="0" value="800"></div>
-<div><label>სანტექნიკა (₾)</label><input id="plumbing" type="number" min="0" value="600"></div>
-<div><label>ტრანსპორტი (₾)</label><input id="transport" type="number" min="0" value="300"></div>
-<div><label>სხვა (₾)</label><input id="other" type="number" min="0" value="0"></div>
+
+<div>
+<label>ელექტროობა (₾)</label>
+<input id="electric" type="number" min="0" value="800">
 </div>
+
+<div>
+<label>სანტექნიკა (₾)</label>
+<input id="plumbing" type="number" min="0" value="600">
+</div>
+
+<div>
+<label>ტრანსპორტი (₾)</label>
+<input id="transport" type="number" min="0" value="300">
+</div>
+
+<div>
+<label>სხვა (₾)</label>
+<input id="other" type="number" min="0" value="0">
+</div>
+
+</div>
+
 <button onclick="calculate()">ბიუჯეტის დათვლა</button>
+
 </section>
 
 <section class="card result">
+
 <h2>შედეგი</h2>
-<div class="muted">სავარაუდო სრული ბიუჯეტი</div>
-<div class="total" id="total">₾0</div>
-<div class="line"><span>სამუშაოები</span><b id="works">₾0</b></div>
-<div class="line"><span>დამატებითი ხარჯები</span><b id="extras">₾0</b></div>
-<div class="line"><span>რეზერვი</span><b id="reserveOut">₾0</b></div>
-<div class="note">ეს არის საორიენტაციო გამოთვლა. საბოლოო ფასი დამოკიდებულია მასალებზე, სამუშაოს სირთულესა და ობიექტის მდგომარეობაზე.</div>
+
+<div class="muted">
+სავარაუდო სრული ბიუჯეტი
+</div>
+
+<div class="total" id="total">
+₾0
+</div>
+
+<div class="line">
+<span>სამუშაოები</span>
+<b id="works">₾0</b>
+</div>
+
+<div class="line">
+<span>დამატებითი ხარჯები</span>
+<b id="extras">₾0</b>
+</div>
+
+<div class="line">
+<span>რეზერვი</span>
+<b id="reserveOut">₾0</b>
+</div>
+
+<div class="note">
+ეს არის საორიენტაციო გამოთვლა. საბოლოო ფასი დამოკიდებულია
+მასალებზე, სამუშაოს სირთულესა და ობიექტის მდგომარეობაზე.
+</div>
+
 </section>
+
 </main>
-<footer>© 2026 FixBudget — მარტივი დაგეგმვა, უკეთესი რემონტი.</footer>
+
+<!-- ხელოსნების სექცია -->
+
+<section class="contractors">
+
+<div class="contractor-card">
+
+<h2>🔧 ხელოსნების მოძებნა</h2>
+
+<p class="muted">
+დაამატე ხელოსანი და შექმენი ხელოსნების საკუთარი სია.
+</p>
+
+<button class="add-button" onclick="toggleContractorForm()">
+➕ ხელოსნის დამატება
+</button>
+
+<div id="contractorForm" class="form-box">
+
+<h3>ახალი ხელოსნის დამატება</h3>
+
+<label>სახელი და გვარი</label>
+<input id="contractorName" type="text" placeholder="მაგ: გიორგი ბერიძე">
+
+<label>სპეციალობა</label>
+
+<select id="contractorType">
+
+<option value="">აირჩიე სპეციალობა</option>
+<option>ელექტრიკი</option>
+<option>სანტექნიკი</option>
+<option>მღებავი</option>
+<option>მლესავი</option>
+<option>კაფელ-მეტლახის ხელოსანი</option>
+<option>იატაკის ხელოსანი</option>
+<option>ჭერის ხელოსანი</option>
+<option>გიფსოკარდონის ხელოსანი</option>
+<option>შპალერის ხელოსანი</option>
+<option>დურგალი</option>
+<option>შემდუღებელი</option>
+<option>სხვა</option>
+
+</select>
+
+<label>ტელეფონის ნომერი</label>
+<input id="contractorPhone" type="tel" placeholder="მაგ: 599 12 34 56">
+
+<label>ქალაქი / რაიონი</label>
+<input id="contractorCity" type="text" placeholder="მაგ: თბილისი">
+
+<button onclick="addContractor()">
+ხელოსნის დამატება
+</button>
+
+</div>
+
+<div id="contractorList" class="contractor-list">
+
+<div class="empty">
+ჯერ ხელოსანი არ დაგიმატებია.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 FixBudget — მარტივი დაგეგმვა, უკეთესი რემონტი.
+</footer>
 
 <script>
-function n(id){return Math.max(0,Number(document.getElementById(id).value)||0)}
-function money(x){return "₾"+Math.round(x).toLocaleString("ka-GE")}
-function calculate(){
- const area=n("area");
- const works=area*(n("paint")+n("floor")+n("walls")+n("ceiling"));
- const extras=n("electric")+n("plumbing")+n("transport")+n("other");
- const reserve=(works+extras)*n("reserve")/100;
- const total=works+extras+reserve;
- document.getElementById("works").textContent=money(works);
- document.getElementById("extras").textContent=money(extras);
- document.getElementById("reserveOut").textContent=money(reserve);
- document.getElementById("total").textContent=money(total);
+
+/* =========================
+   ბიუჯეტის კალკულატორი
+========================= */
+
+function n(id){
+
+return Math.max(
+0,
+Number(document.getElementById(id).value) || 0
+);
+
 }
-document.querySelectorAll("input").forEach(x=>x.addEventListener("input",calculate));
+
+
+function money(x){
+
+return "₾" + Math.round(x).toLocaleString("ka-GE");
+
+}
+
+
+function calculate(){
+
+const area = n("area");
+
+const works =
+area *
+(
+n("paint") +
+n("floor") +
+n("walls") +
+n("ceiling")
+);
+
+const extras =
+n("electric") +
+n("plumbing") +
+n("transport") +
+n("other");
+
+const reserve =
+(works + extras) *
+n("reserve") / 100;
+
+const total =
+works +
+extras +
+reserve;
+
+
+document.getElementById("works").textContent =
+money(works);
+
+document.getElementById("extras").textContent =
+money(extras);
+
+document.getElementById("reserveOut").textContent =
+money(reserve);
+
+document.getElementById("total").textContent =
+money(total);
+
+}
+
+
+document
+.querySelectorAll("input")
+.forEach(function(x){
+
+x.addEventListener("input", calculate);
+
+});
+
+
 calculate();
+
+
+/* =========================
+   ხელოსნების დამატება
+========================= */
+
+function toggleContractorForm(){
+
+const form =
+document.getElementById("contractorForm");
+
+form.classList.toggle("active");
+
+}
+
+
+function addContractor(){
+
+const name =
+document.getElementById("contractorName").value.trim();
+
+const type =
+document.getElementById("contractorType").value;
+
+const phone =
+document.getElementById("contractorPhone").value.trim();
+
+const city =
+document.getElementById("contractorCity").value.trim();
+
+
+if(!name){
+
+alert("გთხოვ, შეიყვანე ხელოსნის სახელი.");
+
+return;
+
+}
+
+
+if(!type){
+
+alert("გთხოვ, აირჩიე სპეციალობა.");
+
+return;
+
+}
+
+
+const contractor = {
+
+name:name,
+
+type:type,
+
+phone:phone,
+
+city:city
+
+};
+
+
+let contractors =
+JSON.parse(
+localStorage.getItem("fixbudget_contractors")
+) || [];
+
+
+contractors.push(contractor);
+
+
+localStorage.setItem(
+"fixbudget_contractors",
+JSON.stringify(contractors)
+);
+
+
+document.getElementById("contractorName").value = "";
+
+document.getElementById("contractorType").value = "";
+
+document.getElementById("contractorPhone").value = "";
+
+document.getElementById("contractorCity").value = "";
+
+
+renderContractors();
+
+}
+
+
+function renderContractors(){
+
+const list =
+document.getElementById("contractorList");
+
+
+let contractors =
+JSON.parse(
+localStorage.getItem("fixbudget_contractors")
+) || [];
+
+
+if(contractors.length === 0){
+
+list.innerHTML =
+'<div class="empty">ჯერ ხელოსანი არ დაგიმატებია.</div>';
+
+return;
+
+}
+
+
+list.innerHTML = "";
+
+
+contractors.forEach(function(contractor,index){
+
+const div =
+document.createElement("div");
+
+div.className = "contractor";
+
+
+div.innerHTML = `
+
+<h3>🔧 ${escapeHtml(contractor.name)}</h3>
+
+<p>
+<b>სპეციალობა:</b>
+${escapeHtml(contractor.type)}
+</p>
+
+${
+contractor.phone
+?
+`<p><b>ტელეფონი:</b> ${escapeHtml(contractor.phone)}</p>`
+:
+""
+}
+
+${
+contractor.city
+?
+`<p><b>ადგილმდებარეობა:</b> ${escapeHtml(contractor.city)}</p>`
+:
+""
+}
+
+<button
+class="delete-btn"
+onclick="deleteContractor(${index})">
+წაშლა
+</button>
+
+`;
+
+
+list.appendChild(div);
+
+});
+
+}
+
+
+function deleteContractor(index){
+
+let contractors =
+JSON.parse(
+localStorage.getItem("fixbudget_contractors")
+) || [];
+
+
+if(confirm("ნამდვილად გინდა ამ ხელოსნის წაშლა?")){
+
+contractors.splice(index,1);
+
+
+localStorage.setItem(
+"fixbudget_contractors",
+JSON.stringify(contractors)
+);
+
+
+renderContractors();
+
+}
+
+}
+
+
+function escapeHtml(text){
+
+const div =
+document.createElement("div");
+
+div.textContent = text;
+
+return div.innerHTML;
+
+}
+
+
+/* შენახული ხელოსნების ჩვენება */
+
+renderContractors();
+
 </script>
+
 </body>
 </html>
